@@ -26,6 +26,8 @@ final class MovieQuizViewController: UIViewController {
     private var currentQuestionIndex = 0
     private var correctAnswers = 0
     
+    private var isButtonsUnlocked = true
+    
     private let questions: [QuizQuestion] = [
         QuizQuestion(image: "The Godfather", text: "Рейтинг этого фильма больше чем 6?", correctAnswer: true),
         QuizQuestion(image: "The Dark Knight", text: "Рейтинг этого фильма больше чем 6?", correctAnswer: true),
@@ -48,16 +50,27 @@ final class MovieQuizViewController: UIViewController {
     }
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
+        guard isButtonsUnlocked else {return}
         let currentQuestion = questions[currentQuestionIndex]
         showAnswerResult(isCorrect: currentQuestion.correctAnswer == false)
     }
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
+        guard isButtonsUnlocked else {return}
         let currentQuestion = questions[currentQuestionIndex]
         showAnswerResult(isCorrect: currentQuestion.correctAnswer == true)
     }
     
+    private func buttonLocker() {
+        isButtonsUnlocked = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.isButtonsUnlocked = true
+        }
+        
+    }
+    
     private func showAnswerResult(isCorrect: Bool) {
+        buttonLocker()
         if isCorrect {
             correctAnswers += 1
         }
@@ -79,7 +92,7 @@ final class MovieQuizViewController: UIViewController {
     
     private func showNextQuestionOrResults() {
         if currentQuestionIndex == questions.count - 1 {
-          let text = "Ваш результат: \(correctAnswers)/10"
+            let text = "Ваш результат: \(correctAnswers)/10"
             let viewModel = QuizResultsViewModel(
                 title: "Этот раунд окончен!",
                 text: text,
