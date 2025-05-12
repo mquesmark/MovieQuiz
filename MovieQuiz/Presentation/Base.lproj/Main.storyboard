@@ -9,6 +9,9 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <customFonts key="customFonts">
+        <array key="YS Display-Bold.ttf">
+            <string>YSDisplay-Bold</string>
+        </array>
         <array key="YS Display-Medium.ttf">
             <string>YSDisplay-Medium</string>
         </array>
@@ -102,14 +105,27 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YNi-Xa-OZJ">
+                                <rect key="frame" x="138" y="96" width="138" height="47"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" image="trash" catalog="system" title="Сброс Статистики" subtitle="">
+                                    <fontDescription key="titleFontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="14"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="resetStatistics:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wkb-wI-Pdm"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
                             <constraint firstItem="nmq-iy-zcl" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="COj-vJ-WfI"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="nmq-iy-zcl" secondAttribute="trailing" constant="20" id="FBd-nj-e2K"/>
+                            <constraint firstItem="YNi-Xa-OZJ" firstAttribute="centerX" secondItem="nmq-iy-zcl" secondAttribute="centerX" id="JoT-98-Vgn"/>
+                            <constraint firstItem="YNi-Xa-OZJ" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="1:3" id="N5c-s9-Sv1"/>
                             <constraint firstItem="nmq-iy-zcl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Nza-QZ-BXC"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="nmq-iy-zcl" secondAttribute="bottom" id="Sxg-RM-4V4"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="YNi-Xa-OZJ" secondAttribute="top" id="Uk6-mK-nqT"/>
                         </constraints>
                     </view>
                     <connections>
@@ -124,6 +140,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="trash" catalog="system" width="117" height="128"/>
         <namedColor name="YP Black">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
