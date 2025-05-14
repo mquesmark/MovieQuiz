@@ -37,7 +37,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
         guard isButtonsUnlocked else {return}
-        guard let currentQuestion = currentQuestion else {return}
+        guard let currentQuestion else {return}
         showAnswerResult(isCorrect: currentQuestion.correctAnswer == false)
     }
     
@@ -61,7 +61,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private func buttonLocker() {
         isButtonsUnlocked = false
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { // 0.2 для удобства тестирования
             self.isButtonsUnlocked = true
         }
         
@@ -77,7 +77,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         imageView.layer.borderWidth = 8
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in // 0.2 для удобства тестирования 
             guard let self else { return }
             self.showNextQuestionOrResults()
         }
@@ -105,12 +105,17 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             let currentResult = correctAnswers == questionsAmount ?
             "Ваш результат: \(correctAnswers)/10" :
             "Вы ответили на \(correctAnswers)/10, попробуйте еще раз"
-            let stasticsText = "Количество сыгранных квизов: \(statisticService?.totalGamesCount ?? 0) \n" +
-            "Рекорд: \(statisticService?.bestGame.correct ?? 0)/10 \(statisticService?.bestGame.date.dateTimeString ?? Date().dateTimeString)\n" +
-            "Средняя точность: \(String(format: "%.2f", statisticService?.totalAccuracy ?? 0))%"
+            
+            let gamesCountText = "Количество сыграных квизов: \(statisticService?.totalGamesCount ?? 0)"
+            let bestGameText = "Рекорд: \(statisticService?.bestGame.correct ?? 0)/10)"
+            let bestGameDate = "\(statisticService?.bestGame.date.dateTimeString ?? Date().dateTimeString)"
+            let accuracyText = "Средняя точность: \(String(format: "%.2f", statisticService?.totalAccuracy ?? 0))%"
+            
+            let message = [currentResult, gamesCountText, bestGameText, bestGameDate, accuracyText].joined(separator: "\n")
+            
             let alertModel = AlertModel(
                 title: "Этот раунд окончен!",
-                message: currentResult + "\n" + stasticsText,
+                message: message,
                 buttonText: "Сыграть еще раз",
                 completion: { [weak self] in
                     self?.resetGame()
