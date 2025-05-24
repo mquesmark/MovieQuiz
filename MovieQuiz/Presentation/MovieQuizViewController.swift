@@ -8,6 +8,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     @IBOutlet private weak var imageView: UIImageView!
     @IBOutlet private weak var textLabel: UILabel!
     @IBOutlet private weak var counterLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     private let questionsAmount: Int = 10
     private var questionFactory: QuestionFactoryProtocol?
@@ -22,16 +23,12 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let questionFactory = QuestionFactory()
-        questionFactory.delegate = self
-        self.questionFactory = questionFactory
-        
-        questionFactory.requestNextQuestion()
         resetBorderStyle()
+        questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
+        statisticService = StatisticService()
         
-        let statisticService = StatisticService()
-        self.statisticService = statisticService
+        switchLoadingIndicator(to: true)
+        questionFactory?.loadData()
         
     }
     
@@ -46,9 +43,40 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         guard let currentQuestion = currentQuestion else {return}
         showAnswerResult(isCorrect: currentQuestion.correctAnswer == true)
     }
+    private func switchLoadingIndicator(to shown: Bool) {
+        if shown {
+            activityIndicator.isHidden = false
+            activityIndicator.startAnimating()
+        }
+        else {
+            activityIndicator.isHidden = true
+            activityIndicator.stopAnimating()
+        }
+    }
+    
+    private func showNetworkError(message: String) {
+        switchLoadingIndicator(to: false)
+        let alertModel = AlertModel(title: "Ошибка", message: message, buttonText: "Попробовать ещё раз") { [weak self] in
+            guard let self else { return }
+            self.currentQuestionIndex = 0
+            self.correctAnswers = 0
+            
+            self.questionFactory?.requestNextQuestion()
+        }
+        alertPresenter.show(alertModel: alertModel, screen: self)
+        
+    }
+    func didLoadDataFromServer() {
+        switchLoadingIndicator(to: false)
+        questionFactory?.requestNextQuestion()
+    }
+    
+    func didFailToLoadDataFromServer(with error: Error) {
+        showNetworkError(message: error.localizedDescription)
+    }
     
     func didReceiveNextQuestion(question: QuizQuestion?) {
-        guard let question = question else {return}
+        guard let question else {return}
         
         currentQuestion = question
         let viewModel = convert(model: question)
@@ -92,7 +120,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private func resetGame() {
         self.currentQuestionIndex = 0
         self.correctAnswers = 0
-        self.questionFactory?.resetQuestions()
         self.questionFactory?.requestNextQuestion()
     }
     @IBAction func resetStatistics(_ sender: UIButton) { // добавил это чтобы тестировать правильно ли считается статистика, в UI скрыто для ревью
@@ -137,7 +164,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         return QuizStepViewModel(
-            image: UIImage(named: model.image) ?? UIImage(), question: model.text, questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)"
+            image: UIImage(data: model.image) ?? UIImage(),
+            question: model.text,
+            questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)"
         )
     }
 }
