@@ -115,10 +115,14 @@
                                     <action selector="resetStatistics:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wkb-wI-Pdm"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="xkd-Sm-UHf">
+                                <rect key="frame" x="188.5" y="411.5" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" name="YP Black"/>
                         <constraints>
+                            <constraint firstItem="xkd-Sm-UHf" firstAttribute="centerX" secondItem="emn-RD-hnQ" secondAttribute="centerX" id="2gL-Wk-S44"/>
                             <constraint firstItem="nmq-iy-zcl" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="COj-vJ-WfI"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="nmq-iy-zcl" secondAttribute="trailing" constant="20" id="FBd-nj-e2K"/>
                             <constraint firstItem="YNi-Xa-OZJ" firstAttribute="centerX" secondItem="nmq-iy-zcl" secondAttribute="centerX" id="JoT-98-Vgn"/>
@@ -126,9 +130,11 @@
                             <constraint firstItem="nmq-iy-zcl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Nza-QZ-BXC"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="nmq-iy-zcl" secondAttribute="bottom" id="Sxg-RM-4V4"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="YNi-Xa-OZJ" secondAttribute="top" id="Uk6-mK-nqT"/>
+                            <constraint firstItem="xkd-Sm-UHf" firstAttribute="centerY" secondItem="emn-RD-hnQ" secondAttribute="centerY" id="sAn-2p-QAF"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="xkd-Sm-UHf" id="H2z-0f-Euj"/>
                         <outlet property="counterLabel" destination="b03-xW-Z19" id="13f-cW-ELF"/>
                         <outlet property="imageView" destination="emn-RD-hnQ" id="Szi-nI-PcE"/>
                         <outlet property="textLabel" destination="W6g-bL-tlx" id="Rbc-Gl-GQ6"/>
