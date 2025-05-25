@@ -44,13 +44,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         showAnswerResult(isCorrect: currentQuestion.correctAnswer == true)
     }
     private func switchLoadingIndicator(to shown: Bool) {
-        if shown {
-            activityIndicator.isHidden = false
-            activityIndicator.startAnimating()
-        }
-        else {
-            activityIndicator.isHidden = true
-            activityIndicator.stopAnimating()
+        DispatchQueue.main.async {
+            self.activityIndicator.isHidden = !shown
+            shown ? self.activityIndicator.startAnimating() : self.activityIndicator.stopAnimating()
         }
     }
     
@@ -61,7 +57,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
             
-            self.questionFactory?.requestNextQuestion()
+            self.questionFactory?.loadData()
         }
         alertPresenter.show(alertModel: alertModel, screen: self)
         
@@ -120,7 +116,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     private func resetGame() {
         self.currentQuestionIndex = 0
         self.correctAnswers = 0
-        self.questionFactory?.requestNextQuestion()
+        switchLoadingIndicator(to: true)
+        self.questionFactory?.loadData()
     }
     @IBAction func resetStatistics(_ sender: UIButton) { // добавил это чтобы тестировать правильно ли считается статистика, в UI скрыто для ревью
         statisticService?.reset()
@@ -152,6 +149,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         } else {
             currentQuestionIndex += 1
             self.questionFactory?.requestNextQuestion()
+            switchLoadingIndicator(to: true)
         }
     }
     

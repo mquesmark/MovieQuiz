@@ -7,7 +7,14 @@ protocol MoviesLoading {
 struct MoviesLoader: MoviesLoading {
     // MARK: - NetworkClient
     private let networkClient = NetworkClient()
-    
+    private let decoder: JSONDecoder = JSONDecoder()
+    private struct APIError: LocalizedError {
+        let message: String
+
+        var errorDescription: String? {
+            return message
+        }
+    }
     // MARK: - URL
     private var mostPopularMoviesUrl: URL {
         guard let url = URL(string: "https://tv-api.com/en/API/Top250Movies/k_zcuw1ytf") else {
@@ -21,7 +28,13 @@ struct MoviesLoader: MoviesLoading {
             switch result {
             case .success(let data):
                 do {
-                    let mostPopularMovies = try JSONDecoder().decode(MostPopularMovies.self, from: data)
+                    let mostPopularMovies = try decoder.decode(MostPopularMovies.self, from: data)
+                      if !mostPopularMovies.errorMessage.isEmpty && mostPopularMovies.items.isEmpty {
+                        let error = APIError(message: mostPopularMovies.errorMessage)
+                          print(error.message)
+                        handler(.failure(error)); return
+                    }
+                    
                     handler(.success(mostPopularMovies))
                 } catch {
                     handler(.failure(error))
