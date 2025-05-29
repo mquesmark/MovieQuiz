@@ -158,6 +158,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         imageView.image = step.image
         textLabel.text = step.question
         counterLabel.text = step.questionNumber
+        switchLoadingIndicator(to: false)
+
     }
     
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
