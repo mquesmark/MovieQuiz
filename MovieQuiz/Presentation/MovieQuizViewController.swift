@@ -10,8 +10,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     private var correctAnswers = 0
 
-    private var questionFactory: QuestionFactoryProtocol?
-    private var currentQuestion: QuizQuestion?
+    var questionFactory: QuestionFactoryProtocol?
     private var statisticService: StatisticServiceProtocol?
 
     private let presenter = MovieQuizPresenter()
@@ -37,13 +36,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     // MARK: - QuestionFactoryDelegate
     
     func didReceiveNextQuestion(question: QuizQuestion?) {
-        guard let question else {return}
-        
-        currentQuestion = question
-        let viewModel = presenter.convert(model: question)
-        DispatchQueue.main.async { [weak self] in
-            self?.show(quiz: viewModel)
-        }
+        presenter.didReceiveNextQuestion(question: question)
     }
     
     func didLoadDataFromServer() {
@@ -60,20 +53,18 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     @IBAction private func noButtonClicked(_ sender: UIButton) {
         guard isButtonsUnlocked else {return}
         
-        presenter.currentQuestion = currentQuestion
         presenter.noButtonClicked()
     }
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
         guard isButtonsUnlocked else {return}
         
-        presenter.currentQuestion = currentQuestion
         presenter.yesButtonClicked()
     }
     
     // MARK: - Private functions
 
-    private func show(quiz step: QuizStepViewModel) {
+    func show(quiz step: QuizStepViewModel) {
         resetBorderStyle()
         imageView.image = step.image
         textLabel.text = step.question
@@ -82,7 +73,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
 
     }
     
-    private func show(quiz result: QuizResultsViewModel) {
+    func show(quiz result: QuizResultsViewModel) {
         var message = result.text
         if let statisticService = statisticService {
             statisticService.store(correct: correctAnswers, total: presenter.questionsAmount)
@@ -118,11 +109,13 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in // 0.2 для удобства тестирования
             guard let self else { return }
-            self.showNextQuestionOrResults()
+            self.presenter.correctAnswers = self.correctAnswers
+            self.presenter.questionFactory = self.questionFactory
+            self.presenter.showNextQuestionOrResults()
         }
     }
     
-    private func showNextQuestionOrResults() {
+    func showNextQuestionOrResults() {
         if presenter.isLastQuestion() {
             let text = correctAnswers == presenter.questionsAmount ?
             "Ваш результат: \(correctAnswers)/10"
