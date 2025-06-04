@@ -6,6 +6,8 @@ final class AlertPresenter {
             message: alertModel.message,
             preferredStyle: .alert
         )
+        alert.view.accessibilityIdentifier = "gameOverAlert"
+        
         let action = UIAlertAction(title: alertModel.buttonText, style: .default){ _ in
             alertModel.completion()
         }

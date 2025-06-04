@@ -77,8 +77,7 @@ final class QuestionFactory: QuestionFactoryProtocol {
                                         text: text,
                                         correctAnswer: correctAnswer)
             
-            DispatchQueue.main.async { [weak self] in
-                guard let self = self else { return }
+            DispatchQueue.main.async {
                 self.delegate?.didReceiveNextQuestion(question: question)
             }
         }
