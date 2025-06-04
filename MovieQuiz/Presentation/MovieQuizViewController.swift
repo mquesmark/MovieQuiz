@@ -25,6 +25,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        presenter.viewController = self
         resetBorderStyle()
         questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
         statisticService = StatisticService()
@@ -58,14 +59,16 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
         guard isButtonsUnlocked else {return}
-        guard let currentQuestion else {return}
-        showAnswerResult(isCorrect: currentQuestion.correctAnswer == false)
+        
+        presenter.currentQuestion = currentQuestion
+        presenter.noButtonClicked()
     }
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
         guard isButtonsUnlocked else {return}
-        guard let currentQuestion = currentQuestion else {return}
-        showAnswerResult(isCorrect: currentQuestion.correctAnswer == true)
+        
+        presenter.currentQuestion = currentQuestion
+        presenter.yesButtonClicked()
     }
     
     // MARK: - Private functions
@@ -103,7 +106,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         alertPresenter.show(alertModel: model, screen: self)
     }
     
-    private func showAnswerResult(isCorrect: Bool) {
+    func showAnswerResult(isCorrect: Bool) {
         buttonLocker()
         if isCorrect {
             correctAnswers += 1

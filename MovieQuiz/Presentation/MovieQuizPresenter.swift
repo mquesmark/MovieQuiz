@@ -1,6 +1,7 @@
 import UIKit
 
 final class MovieQuizPresenter {
+    // Превая часть
     let questionsAmount: Int = 10
     private var currentQuestionIndex: Int = 0
     
@@ -24,4 +25,19 @@ final class MovieQuizPresenter {
         )
     }
     
+    
+    // Вторая часть
+    var currentQuestion: QuizQuestion?
+    weak var viewController: MovieQuizViewController?
+    
+    func noButtonClicked() {
+        guard let currentQuestion else { return }
+        
+        viewController?.showAnswerResult(isCorrect: currentQuestion.correctAnswer == false)
+    }
+    func yesButtonClicked() {
+        guard let currentQuestion else { return }
+        
+        viewController?.showAnswerResult(isCorrect: currentQuestion.correctAnswer == true)
+    }
 }
