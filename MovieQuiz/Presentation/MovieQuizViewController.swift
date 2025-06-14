@@ -24,7 +24,8 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         presenter = MovieQuizPresenter(viewController: self)
         imageView.layer.masksToBounds = true
         imageView.layer.cornerRadius = 20
-        resetBorderStyle()
+        imageView.layer.borderWidth = 8
+        resetBorderColor()
     }
     
     // MARK: - Actions
@@ -42,7 +43,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     // MARK: - Private functions
     
     func show(quiz step: QuizStepViewModel) {
-        resetBorderStyle()
+        resetBorderColor()
         imageView.image = step.image
         textLabel.text = step.question
         counterLabel.text = step.questionNumber
@@ -62,7 +63,6 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     }
     
     func highlightImageBorder(isCorrectAnswer: Bool) {
-        imageView.layer.borderWidth = 8 // см. func resetBorderStyle
         imageView.layer.borderColor = isCorrectAnswer ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
     }
     
@@ -87,18 +87,14 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     func buttonLocker() {
         isButtonsUnlocked = false
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in // 0.2 для удобства тестирования
-            guard let self = self else {
-                print("self is nil")
-                return
-            }
+            guard let self = self else { return }
             self.isButtonsUnlocked = true
         }
         
     }
     
-    private func resetBorderStyle() {
-        imageView.layer.borderWidth = 0 // если не менять толщину границы на 0, то у меня рамка становится черная, несмотря на borderColor nil, а не исчезает целиком
-        imageView.layer.borderColor = nil
+    private func resetBorderColor() {
+        imageView.layer.borderColor = UIColor.clear.cgColor
     }
     
 }

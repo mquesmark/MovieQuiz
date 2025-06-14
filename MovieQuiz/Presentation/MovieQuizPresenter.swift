@@ -1,4 +1,4 @@
-import UIKit // мне в моем болотце хорошо и с UIKit)) Может быть, после каникул подумаю, как его можно убрать
+import UIKit
 
 final class MovieQuizPresenter: QuestionFactoryDelegate {
     
@@ -49,7 +49,6 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
     
     func didAnswer(isCorrectAnswer: Bool) {
-        guard let currentQuestion else { return }
         if isCorrectAnswer {
             correctAnswers += 1
         }
