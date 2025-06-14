@@ -75,5 +75,6 @@ final class MovieQuizUITests: XCTestCase {
         alert.buttons.firstMatch.tap()
         sleep(3)
         XCTAssertEqual(app.staticTexts["Index"].label, "1/10")
+        XCTAssertFalse(alert.exists)
     }
 }

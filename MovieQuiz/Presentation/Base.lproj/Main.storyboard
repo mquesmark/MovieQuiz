@@ -111,18 +111,9 @@
                                     </stackView>
                                 </subviews>
                             </stackView>
-                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="fill" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YNi-Xa-OZJ">
-                                <rect key="frame" x="138" y="96" width="138" height="47"/>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" image="trash" catalog="system" title="Сброс Статистики" subtitle="">
-                                    <fontDescription key="titleFontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="14"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="resetStatistics:" destination="BYZ-38-t0r" eventType="touchUpInside" id="wkb-wI-Pdm"/>
-                                </connections>
-                            </button>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="xkd-Sm-UHf">
                                 <rect key="frame" x="188.5" y="411.5" width="37" height="37"/>
+                                <color key="color" name="YP Gray"/>
                             </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -131,11 +122,8 @@
                             <constraint firstItem="xkd-Sm-UHf" firstAttribute="centerX" secondItem="emn-RD-hnQ" secondAttribute="centerX" id="2gL-Wk-S44"/>
                             <constraint firstItem="nmq-iy-zcl" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="10" id="COj-vJ-WfI"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="nmq-iy-zcl" secondAttribute="trailing" constant="20" id="FBd-nj-e2K"/>
-                            <constraint firstItem="YNi-Xa-OZJ" firstAttribute="centerX" secondItem="nmq-iy-zcl" secondAttribute="centerX" id="JoT-98-Vgn"/>
-                            <constraint firstItem="YNi-Xa-OZJ" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="1:3" id="N5c-s9-Sv1"/>
                             <constraint firstItem="nmq-iy-zcl" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="Nza-QZ-BXC"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="nmq-iy-zcl" secondAttribute="bottom" id="Sxg-RM-4V4"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="YNi-Xa-OZJ" secondAttribute="top" id="Uk6-mK-nqT"/>
                             <constraint firstItem="xkd-Sm-UHf" firstAttribute="centerY" secondItem="emn-RD-hnQ" secondAttribute="centerY" id="sAn-2p-QAF"/>
                         </constraints>
                     </view>
@@ -143,7 +131,9 @@
                         <outlet property="activityIndicator" destination="xkd-Sm-UHf" id="H2z-0f-Euj"/>
                         <outlet property="counterLabel" destination="b03-xW-Z19" id="13f-cW-ELF"/>
                         <outlet property="imageView" destination="emn-RD-hnQ" id="Szi-nI-PcE"/>
+                        <outlet property="noButton" destination="p0h-T7-ZaF" id="AVB-G8-Gk9"/>
                         <outlet property="textLabel" destination="W6g-bL-tlx" id="Rbc-Gl-GQ6"/>
+                        <outlet property="yesButton" destination="m3j-zj-C2I" id="Snc-n2-T0I"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -152,9 +142,11 @@
         </scene>
     </scenes>
     <resources>
-        <image name="trash" catalog="system" width="117" height="128"/>
         <namedColor name="YP Black">
             <color red="0.10196078431372549" green="0.10588235294117647" blue="0.13333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+        <namedColor name="YP Gray">
+            <color red="0.90196078431372551" green="0.90980392156862744" blue="0.92156862745098034" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="YP White">
             <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
