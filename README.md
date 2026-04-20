@@ -1,33 +1,57 @@
-## **MovieQuiz**
+# MovieQuiz
 
-MovieQuiz - это приложение с квизами о фильмах из топ-250 рейтинга и самых популярных фильмах по версии IMDb.
+iOS quiz app about IMDb movie ratings. The app asks Yes/No questions, shows instant visual feedback, and tracks game statistics. Built with UIKit and MVP architecture.
 
-## **Ссылки**
+## Features
 
-[Макет Figma](https://www.figma.com/file/l0IMG3Eys35fUrbvArtwsR/YP-Quiz?node-id=34%3A243)
+- 10 questions per round from IMDb Top 250 and Most Popular movies
+- Instant visual feedback with green and red borders
+- Game statistics: current score, best score, and average accuracy
+- Network error handling with retry option
+- Portrait orientation only
+- Supports iOS 15+
 
-[API IMDb](https://imdb-api.com/api#Top250Movies-header)
+## Tech Stack
 
-[Шрифты](https://code.s3.yandex.net/Mobile/iOS/Fonts/MovieQuizFonts.zip)
+- Swift
+- UIKit
+- MVP
+- URLSession
+- Decodable
+- UserDefaults
+- XCTest (Unit and UI tests)
 
-## **Описание приложения**
+## Installation
 
-- Одностраничное приложение с квизами о фильмах из топ-250 рейтинга и самых популярных фильмов IMDb. Пользователь приложения последовательно отвечает на вопросы о рейтинге фильма. По итогам каждого раунда игры показывается статистика о количестве правильных ответов и лучших результатах пользователя. Цель игры — правильно ответить на все 10 вопросов раунда.
+1. Clone the repository:
+   `git clone https://github.com/maximgv3/MovieQuiz.git`
 
-## **Функциональные требования**
+2. Open the project:
+   `open MovieQuiz.xcodeproj`
 
-- При запуске приложения показывается сплеш-скрин;
-- После запуска приложения показывается экран вопроса с текстом вопроса, картинкой и двумя вариантами ответа, “Да” и “Нет”, только один из них правильный;
-- Вопрос квиза составляется относительно IMDb рейтинга фильма по 10-балльной шкале, например: "Рейтинг этого фильма больше 6?";
-- Можно нажать на один из вариантов ответа на вопрос и получить отклик о том, правильный он или нет, при этом рамка фотографии поменяет цвет на соответствующий;
-- После выбора ответа на вопрос через 1 секунду автоматически появляется следующий вопрос;
-- После завершения раунда из 10 вопросов появляется алерт со статистикой пользователя и возможностью сыграть ещё раз;
-- Статистика содержит: результат текущего раунда (количество правильных ответов из 10 вопросов), количество сыгранных квизов, рекорд (лучший результат раунда за сессию, дата и время этого раунда), статистику сыгранных квизов в процентном соотношении (среднюю точность);
-- Пользователь может запустить новый раунд, нажав в алерте на кнопку "Сыграть еще раз";
-- При невозможности загрузить данные пользователь видит алерт с сообщением о том, что что-то пошло не так, а также кнопкой, по нажатию на которую можно повторить сетевой запрос.
+3. Run the app in Xcode.
 
-## **Технические требования**
+## Architecture
 
-- Приложение должно поддерживать устройства iPhone с iOS 15, предусмотрен только портретный режим;
-- Элементы интерфейса адаптируются под разрешения экранов iPhone, начиная с X — вёрстка под SE и iPad не предусмотрена;
-- Экраны соответствует макету — использованы верные шрифты нужных размеров, все надписи находятся на нужном месте, расположение всех элементов, размеры кнопок и отступы — точно такие же, как в макете.
+The project uses the **MVP** pattern to separate UI, presentation logic, and services.
+
+- **View** (`MovieQuizViewController`) — renders the interface
+- **Presenter** (`MovieQuizPresenter`) — handles game flow and presentation logic
+- **Services** — networking, statistics, and question generation
+
+`ViewController ↔ Presenter ↔ Services`
+
+## Testing
+
+The project includes:
+
+- Unit tests for `MoviesLoader` and helper logic
+- Presenter tests
+- UI tests for main user flows
+
+Run all tests in Xcode with `Cmd + U`.
+
+## Resources
+
+- [Figma Design](https://www.figma.com/file/l0IMG3Eys35fUrbvArtwsR/YP-Quiz?node-id=34%3A243)
+- [IMDb API](https://imdb-api.com/api#Top250Movies-header)
