@@ -31,6 +31,13 @@ iOS quiz app about IMDb movie ratings. The app asks Yes/No questions, shows inst
 
 3. Run the app in Xcode.
 
+## Screenshots
+
+<p align="left">
+  <img src="https://github.com/user-attachments/assets/bfc39bf5-d0d0-4676-bfbe-451e2ab5da6d" width="200" />
+  <img src="https://github.com/user-attachments/assets/7162164b-d45b-4546-86c2-4575c83ec2f4" width="200" />
+</p>
+
 ## Architecture
 
 The project uses the **MVP** pattern to separate UI, presentation logic, and services.
